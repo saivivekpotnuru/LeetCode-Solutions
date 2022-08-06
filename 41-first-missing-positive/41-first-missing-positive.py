@@ -1,15 +1,19 @@
-class Solution(object):
-    def firstMissingPositive(self, nums):
-        i = 0
-        while i < len(nums):
-            j = abs(nums[i])-1
-            if  nums[i] > 0 and nums[i] <= len(nums) and nums[i] != nums[j]:
-                nums[i], nums[j] = nums[j], nums[i]
-            else:
-                i+=1
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        # making negative nums to 0
         for i in range(len(nums)):
-            if nums[i] != i+1:
-                return i+1
-        return len(nums)+1
-    
+            if nums[i]<0:
+                nums[i]=0
         
+        for i in range(len(nums)):
+            val=abs(nums[i])
+            if 1<=val and val<=len(nums):
+                if nums[val-1]>0:
+                    nums[val-1]*=-1
+                elif nums[val-1]==0:
+                    nums[val-1]=-1*(len(nums)+1)
+                    
+        for i in range(1,len(nums)+1):
+            if nums[i-1] >= 0:
+                return i
+        return len(nums)+1
